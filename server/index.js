@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import pkg from 'pg'
 const { Pool } = pkg
+import posts from './data.js'; // Importar el array temporal
 
 const app = express()
 const port = 3000
@@ -21,7 +22,7 @@ const pool = new Pool({
 
 // 3-Ruta GET para obtener todos los posts
 app.get('/posts', async (req, res) => {
-  try {
+ try {
     const client = await pool.connect()
     const result = await client.query('SELECT * FROM posts')
     const posts = result.rows
@@ -33,6 +34,7 @@ app.get('/posts', async (req, res) => {
   }
 })
 
+
 // 4-Ruta POST para agregar un nuevo post
 app.post('/posts', async (req, res) => {
   const { titulo, img, descripcion } = req.body
@@ -41,7 +43,7 @@ app.post('/posts', async (req, res) => {
     const result = await client.query(
       'INSERT INTO posts (titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4) RETURNING *',
       [titulo, img, descripcion, 0] // Aquí se asume que likes empieza en 0
-    );
+    )
     const nuevoPost = result.rows[0]
     client.release()
     res.status(201).json(nuevoPost)
