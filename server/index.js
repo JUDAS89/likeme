@@ -2,7 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import pkg from 'pg'
 const { Pool } = pkg
-import posts from './data.js'; // Importar el array temporal
+import posts from './data.js' // Importar el array temporal
+import dotenv from 'dotenv' // Variables de entorno
+
+// Cargar las variables de entorno desde el archivo .env
+dotenv.config()
 
 const app = express()
 const port = 3000
@@ -13,11 +17,11 @@ app.use(express.json())
 
 // 2-Configuración de conexión a PostgreSQL
 const pool = new Pool({
-  user: 'lorenaperoza',
-  host: 'localhost',
-  database: 'likeme',
-  password: 'sadujudas',
-  port: 5432,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 })
 
 // 3-Ruta GET para obtener todos los posts
