@@ -61,6 +61,7 @@ app.get('/', (req, res) => {
     res.send('¡Bienvenido a Like Me! Esta es la página de inicio.')
   })
 
+
 // Iniciar servidor
 app.listen(port, () => {
   console.log(`Servidor funcionando en http://localhost:${port}`)
